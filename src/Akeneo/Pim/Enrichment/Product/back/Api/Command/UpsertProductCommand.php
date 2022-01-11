@@ -29,6 +29,13 @@ final class UpsertProductCommand
     ) {
     }
 
+    public static function createFromCollection(int $userId, string $productIdentifier, array $userIntents): self
+    {
+        $familiyUserIntent = $userIntents[''] ?? null;
+
+        return new self(userId: $userId, productIdentifier: $productIdentifier, familyUserIntent: $familiyUserIntent);
+    }
+
     public function userId(): int
     {
         return $this->userId;
@@ -42,5 +49,10 @@ final class UpsertProductCommand
     public function familyUserIntent()
     {
         return $this->familyUserIntent;
+    }
+
+    public function valuesUserIntent(): array
+    {
+        return $this->valuesUserIntent;
     }
 }

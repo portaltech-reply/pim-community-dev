@@ -15,8 +15,11 @@ namespace Akeneo\Pim\Enrichment\Product\Application;
 
 use Akeneo\Pim\Enrichment\Component\Product\Builder\ProductBuilderInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterface;
+use Akeneo\Pim\Enrichment\Product\Api\Command\SetTextValue;
 use Akeneo\Pim\Enrichment\Product\Api\Command\UpsertProductCommand;
+use Akeneo\Pim\Enrichment\Product\Api\Command\ViolationsException;
 use Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface;
+use Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class UpsertProductHandler
@@ -25,7 +28,8 @@ final class UpsertProductHandler
         private ValidatorInterface $validator,
         private ProductRepositoryInterface $productRepository,
         private ProductBuilderInterface $productBuilder,
-        private SaverInterface $productSaver
+        private SaverInterface $productSaver,
+        private ObjectUpdaterInterface $productUpdater
     ) {
     }
 
@@ -37,7 +41,7 @@ final class UpsertProductHandler
          */
         $violations = $this->validator->validate($command);
         if (0 < $violations->count()) {
-            throw \Exception('TODO type this exception');
+            throw new ViolationsException($violations);
         }
 
         $product = $this->productRepository->findOneByIdentifier($command->productIdentifier());
@@ -46,13 +50,29 @@ final class UpsertProductHandler
         }
 
         if ($command->familyUserIntent()) {
-            // TODO: Apply family set
+            $this->productUpdater->update($product, ['family' => $command->familyUserIntent()]);
+        }
+
+        foreach ($command->valuesUserIntent() as $valueUserIntent) {
+            if ($valueUserIntent instanceof SetTextValue) {
+                $this->productUpdater->update($product, [
+                    'values' => [
+                        $valueUserIntent->attributeCode() => [
+                            [
+                                'locale' => $valueUserIntent->localeCode(),
+                                'scope' => $valueUserIntent->channelCode(),
+                                'data' => $valueUserIntent->value(),
+                            ],
+                        ],
+                    ],
+                ]);
+            }
         }
 
         // Remove when possible
         $violations = $this->validator->validate($product);
         if (0 < $violations->count()) {
-            throw \Exception('TODO type this exception');
+            throw new ViolationsException($violations);
         }
 
         $this->productSaver->save($product);
