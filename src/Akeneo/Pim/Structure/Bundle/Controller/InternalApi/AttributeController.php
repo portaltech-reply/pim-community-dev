@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Structure\Bundle\Controller\InternalApi;
 
 use Akeneo\Pim\Enrichment\Bundle\Filter\ObjectFilterInterface;
-use Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql\AttributeIsAFamilyVariantAxis;
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Pim\Structure\Component\Factory\AttributeFactory;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
+use Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute\AttributeIsAFamilyVariantAxisInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
 use Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface;
@@ -40,88 +40,24 @@ use Webmozart\Assert\Assert;
  */
 class AttributeController
 {
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
-
-    /** @var NormalizerInterface */
-    protected $normalizer;
-
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
-
-    /** @var ObjectFilterInterface */
-    protected $attributeFilter;
-
-    /** @var SearchableRepositoryInterface */
-    protected $attributeSearchRepository;
-
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
-
-    /** @var ValidatorInterface */
-    protected $validator;
-
-    /** @var SaverInterface */
-    protected $saver;
-
-    /** @var RemoverInterface */
-    protected $remover;
-
-    /** @var AttributeFactory */
-    protected $factory;
-
-    /** @var UserContext */
-    private $userContext;
-
-    /** @var LocalizerInterface */
-    protected $numberLocalizer;
-
-    /** @var NormalizerInterface */
-    private $lightAttributeNormalizer;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /** @var AttributeIsAFamilyVariantAxis */
-    private $attributeIsAFamilyVariantAxisQuery;
-
-    /** @var ObjectRepository */
-    private $channelRepository;
-
     public function __construct(
-        AttributeRepositoryInterface $attributeRepository,
-        NormalizerInterface $normalizer,
-        TokenStorageInterface $tokenStorage,
-        ObjectFilterInterface $attributeFilter,
-        SearchableRepositoryInterface $attributeSearchRepository,
-        ObjectUpdaterInterface $updater,
-        ValidatorInterface $validator,
-        SaverInterface $saver,
-        RemoverInterface $remover,
-        AttributeFactory $factory,
-        UserContext $userContext,
-        LocalizerInterface $numberLocalizer,
-        NormalizerInterface $lightAttributeNormalizer,
-        TranslatorInterface $translator,
-        AttributeIsAFamilyVariantAxis $attributeIsAFamilyVariantAxisQuery,
-        ObjectRepository $channelRepository
+        protected AttributeRepositoryInterface $attributeRepository,
+        protected NormalizerInterface $normalizer,
+        protected TokenStorageInterface $tokenStorage,
+        protected ObjectFilterInterface $attributeFilter,
+        protected SearchableRepositoryInterface $attributeSearchRepository,
+        protected ObjectUpdaterInterface $updater,
+        protected ValidatorInterface $validator,
+        protected SaverInterface $saver,
+        protected RemoverInterface $remover,
+        protected AttributeFactory $factory,
+        private UserContext $userContext,
+        protected LocalizerInterface $numberLocalizer,
+        private NormalizerInterface $lightAttributeNormalizer,
+        private TranslatorInterface $translator,
+        private AttributeIsAFamilyVariantAxisInterface $attributeIsAFamilyVariantAxisQuery,
+        private ObjectRepository $channelRepository
     ) {
-        $this->attributeRepository = $attributeRepository;
-        $this->normalizer = $normalizer;
-        $this->tokenStorage = $tokenStorage;
-        $this->attributeFilter = $attributeFilter;
-        $this->attributeSearchRepository = $attributeSearchRepository;
-        $this->updater = $updater;
-        $this->validator = $validator;
-        $this->saver = $saver;
-        $this->remover = $remover;
-        $this->factory = $factory;
-        $this->userContext = $userContext;
-        $this->numberLocalizer = $numberLocalizer;
-        $this->lightAttributeNormalizer = $lightAttributeNormalizer;
-        $this->translator = $translator;
-        $this->attributeIsAFamilyVariantAxisQuery = $attributeIsAFamilyVariantAxisQuery;
-        $this->channelRepository = $channelRepository;
     }
 
     /**

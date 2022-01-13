@@ -6,7 +6,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\User\Internal;
 
 use Akeneo\Connectivity\Connection\Application\Apps\Service\DeleteUserGroupInterface;
 use Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface;
-use Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository\GroupRepository;
+use Akeneo\UserManagement\Component\Repository\GroupRepositoryInterface;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
@@ -14,13 +14,8 @@ use Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository\GroupRepository;
  */
 class DeleteUserGroup implements DeleteUserGroupInterface
 {
-    private GroupRepository $repository;
-    private RemoverInterface $remover;
-
-    public function __construct(GroupRepository $repository, RemoverInterface $remover)
+    public function __construct(private GroupRepositoryInterface $repository, private RemoverInterface $remover)
     {
-        $this->repository = $repository;
-        $this->remover = $remover;
     }
 
     public function execute(string $name): void

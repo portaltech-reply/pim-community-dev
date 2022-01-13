@@ -7,12 +7,12 @@ use Akeneo\Pim\Structure\Bundle\Event\AttributeGroupEvents;
 use Akeneo\Pim\Structure\Bundle\Query\InternalApi\AttributeGroup\Sql\FindAttributeCodesForAttributeGroup;
 use Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeGroupRepositoryInterface;
+use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Remover\RemoverInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\SearchableRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface;
 use Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface;
-use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -36,88 +36,24 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AttributeGroupController
 {
-    /** @var AttributeGroupRepositoryInterface */
-    protected $attributeGroupRepo;
-
-    /** @var SearchableRepositoryInterface */
-    protected $attributeGroupSearchableRepository;
-
-    /** @var NormalizerInterface */
-    protected $normalizer;
-
-    /** @var CollectionFilterInterface */
-    protected $collectionFilter;
-
-    /** @var ObjectUpdaterInterface */
-    protected $updater;
-
-    /** @var ValidatorInterface */
-    protected $validator;
-
-    /** @var SaverInterface */
-    protected $saver;
-
-    /** @var RemoverInterface */
-    protected $remover;
-
-    /** @var EntityRepository */
-    protected $attributeRepository;
-
-    /** @var ObjectUpdaterInterface */
-    protected $attributeUpdater;
-
-    /** @var SaverInterface */
-    protected $attributeSaver;
-
-    /** @var SecurityFacade */
-    protected $securityFacade;
-
-    /** @var SimpleFactoryInterface */
-    protected $attributeGroupFactory;
-
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
-
-    /** @var CollectionFilterInterface */
-    protected $inputFilter;
-
-    /** @var FindAttributeCodesForAttributeGroup */
-    private $findAttributeCodesForAttributeGroup;
-
     public function __construct(
-        AttributeGroupRepositoryInterface $attributeGroupRepo,
-        SearchableRepositoryInterface $attributeGroupSearchableRepository,
-        NormalizerInterface $normalizer,
-        CollectionFilterInterface $collectionFilter,
-        ObjectUpdaterInterface $updater,
-        ValidatorInterface $validator,
-        SaverInterface $saver,
-        RemoverInterface $remover,
-        EntityRepository $attributeRepository,
-        ObjectUpdaterInterface $attributeUpdater,
-        SaverInterface $attributeSaver,
-        SecurityFacade $securityFacade,
-        SimpleFactoryInterface $attributeGroupFactory,
-        EventDispatcherInterface $eventDispatcher,
-        CollectionFilterInterface $inputFilter,
-        FindAttributeCodesForAttributeGroup $findAttributeCodesForAttributeGroup
+        protected AttributeGroupRepositoryInterface $attributeGroupRepo,
+        protected SearchableRepositoryInterface $attributeGroupSearchableRepository,
+        protected NormalizerInterface $normalizer,
+        protected CollectionFilterInterface $collectionFilter,
+        protected ObjectUpdaterInterface $updater,
+        protected ValidatorInterface $validator,
+        protected SaverInterface $saver,
+        protected RemoverInterface $remover,
+        protected AttributeRepositoryInterface $attributeRepository,
+        protected ObjectUpdaterInterface $attributeUpdater,
+        protected SaverInterface $attributeSaver,
+        protected SecurityFacade $securityFacade,
+        protected SimpleFactoryInterface $attributeGroupFactory,
+        protected EventDispatcherInterface $eventDispatcher,
+        protected CollectionFilterInterface $inputFilter,
+        private FindAttributeCodesForAttributeGroup $findAttributeCodesForAttributeGroup
     ) {
-        $this->attributeGroupRepo                 = $attributeGroupRepo;
-        $this->attributeGroupSearchableRepository = $attributeGroupSearchableRepository;
-        $this->normalizer                         = $normalizer;
-        $this->collectionFilter                   = $collectionFilter;
-        $this->updater                            = $updater;
-        $this->validator                          = $validator;
-        $this->saver                              = $saver;
-        $this->remover                            = $remover;
-        $this->attributeRepository                = $attributeRepository;
-        $this->attributeUpdater                   = $attributeUpdater;
-        $this->attributeSaver                     = $attributeSaver;
-        $this->securityFacade                     = $securityFacade;
-        $this->attributeGroupFactory              = $attributeGroupFactory;
-        $this->eventDispatcher                    = $eventDispatcher;
-        $this->inputFilter                        = $inputFilter;
-        $this->findAttributeCodesForAttributeGroup = $findAttributeCodesForAttributeGroup;
     }
 
     /**

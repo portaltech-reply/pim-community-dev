@@ -2,9 +2,9 @@
 
 namespace Akeneo\UserManagement\Bundle\Controller\Rest;
 
-use Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository\GroupRepository;
 use Akeneo\UserManagement\Component\Model\Group;
 use Akeneo\UserManagement\Component\Model\GroupInterface;
+use Akeneo\UserManagement\Component\Repository\GroupRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -16,15 +16,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class UserGroupController
 {
-    /** @var GroupRepository */
-    protected $groupRepository;
-
-    /**
-     * @param GroupRepository $groupRepository
-     */
-    public function __construct(GroupRepository $groupRepository)
+    public function __construct(private GroupRepositoryInterface $groupRepository)
     {
-        $this->groupRepository = $groupRepository;
     }
 
     /**

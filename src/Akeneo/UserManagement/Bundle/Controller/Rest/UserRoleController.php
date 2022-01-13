@@ -3,7 +3,7 @@
 namespace Akeneo\UserManagement\Bundle\Controller\Rest;
 
 use Akeneo\UserManagement\Bundle\Context\UserContext;
-use Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository\RoleRepository;
+use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -16,28 +16,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class UserRoleController
 {
-    /** @var RoleRepository */
-    protected $roleRepository;
-
-    /** @var NormalizerInterface */
-    protected $normalizer;
-
-    /** @var UserContext */
-    protected $userContext;
-
-    /**
-     * @param RoleRepository      $roleRepository
-     * @param NormalizerInterface $normalizer
-     * @param UserContext         $userContext
-     */
     public function __construct(
-        RoleRepository $roleRepository,
-        NormalizerInterface $normalizer,
-        UserContext $userContext
+        protected RoleRepositoryInterface $roleRepository,
+        protected NormalizerInterface $normalizer,
+        protected UserContext $userContext
     ) {
-        $this->roleRepository = $roleRepository;
-        $this->normalizer = $normalizer;
-        $this->userContext = $userContext;
     }
 
     /**
