@@ -13,11 +13,15 @@ declare(strict_types=1);
 
 namespace AkeneoTest\Pim\Enrichment\Integration;
 
+use Akeneo\Pim\Enrichment\Product\Api\Command\AddMultiSelectOptions;
+use Akeneo\Pim\Enrichment\Product\Api\Command\ClearValue;
+use Akeneo\Pim\Enrichment\Product\Api\Command\LegacyViolationsException;
 use Akeneo\Pim\Enrichment\Product\Api\Command\SetTextValue;
 use Akeneo\Pim\Enrichment\Product\Api\Command\UpsertProductCommand;
 use Akeneo\Pim\Enrichment\Product\Api\Command\ViolationsException;
 use Akeneo\Pim\Enrichment\Product\Application\UpsertProductHandler;
 use Akeneo\Test\Integration\TestCase;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 
 final class UpsertProductIntegration extends TestCase
 {
@@ -35,15 +39,26 @@ final class UpsertProductIntegration extends TestCase
             new SetTextValue('a_text', null, null, 'tata'),
             new SetTextValue('a_text', null, null, 'titi'),
             new SetTextValue('a_text_area', null, null, 'a textarea'),
+            new ClearValue('a_text_area', null, null),
+            new AddMultiSelectOptions('a_multi_select', null, null, ['option3', 'optionB']),
         ]);
 
         try {
             ($handler)($command);
-        } catch (ViolationsException) {
-            // TODO: property path in violations?
-            throw new \Exception('Validation error');
+        } catch (ViolationsException $e) {
+            var_dump('ViolationsException');
+            var_dump(array_map(fn (ConstraintViolationInterface $violation) => [
+                'message' => $violation->getMessage(),
+                'path' => $violation->getPropertyPath(),
+                'invalid_value' => $violation->getInvalidValue()
+            ], $e->violations()->getIterator()->getArrayCopy()));
+        } catch (LegacyViolationsException $e) {
+            var_dump('LegacyViolationsException');
+            var_dump(array_map(fn (ConstraintViolationInterface $violation) => [
+                'message' => $violation->getMessage(),
+                'path' => $violation->getPropertyPath(),
+                'invalid_value' => $violation->getInvalidValue()
+            ], $e->violations()->getIterator()->getArrayCopy()));
         }
-
-//        $product = $this->get('pim_catalog.repository.product')->findOneByIdentifier();
     }
 }
