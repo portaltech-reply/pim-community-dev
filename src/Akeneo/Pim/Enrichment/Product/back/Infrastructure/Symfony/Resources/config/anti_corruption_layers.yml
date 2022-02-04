@@ -8,3 +8,9 @@ services:
         arguments:
             - '@?pimee_security.query.product_category_access_with_ids'
             - '@pim_user.repository.user'
+
+    Akeneo\Pim\Enrichment\Product\Domain\Query\AclIsUserLocaleGranted:
+        class: Akeneo\Pim\Enrichment\Product\Infrastructure\AntiCorruptionLayer\AclIsUserLocaleGranted
+        arguments:
+            - '@?pimee_security.query.get_access_group_id_for_locale_code'
+            - '@pim_user.repository.user'

@@ -28,7 +28,7 @@ class AclIsUserCategoryGrantedSpec extends ObjectBehavior
         $this->beConstructedWith($productCategoryAccessQuery, $userRepository);
     }
 
-    function it_is_initializable($productCategoryAccessQuery)
+    function it_is_initializable()
     {
         $this->shouldHaveType(AclIsUserCategoryGranted::class);
         $this->shouldImplement(IsUserCategoryGranted::class);
