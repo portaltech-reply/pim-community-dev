@@ -24,6 +24,7 @@ class MigrateToUuidCommand extends Command
         MigrateToUuidStep $migrateToUuidFillProductUuid,
         MigrateToUuidStep $migrateToUuidFillForeignUuid,
         MigrateToUuidStep $migrateToUuidFillJson,
+        MigrateToUuidStep $migrateToUuidReindexElasticsearch,
         private LoggerInterface $logger
     ) {
         parent::__construct();
@@ -32,6 +33,7 @@ class MigrateToUuidCommand extends Command
             $migrateToUuidFillProductUuid,
             $migrateToUuidFillForeignUuid,
             $migrateToUuidFillJson,
+            $migrateToUuidReindexElasticsearch,
         ];
     }
 
