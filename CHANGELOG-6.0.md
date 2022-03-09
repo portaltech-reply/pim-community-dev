@@ -3,6 +3,7 @@
 ## Bug fixes
 - PLG-776: Fix Option page broken issue with small screen when creating a new option
 - PIM-10305: Do not allow disabled user to login
+- PIM-10321: [Backport PIM-10241] Fix user account disabled can connect regression
 
 # 6.0.7 (2022-02-25)
 
