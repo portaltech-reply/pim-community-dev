@@ -6,6 +6,7 @@
 - PIM-10305: Do not allow disabled user to login
 - PLG-781: Fix migration task related to calculating product quality scores to be independent of the JobExecution implementation
 - RAC-1223: [Backport] RAC-1215: fix error when attributeOption doesn't have label
+- PIM-10332: [Backport PIM-10331] Fix error when using an association with quantities having an numeric code
 
 # 6.0.7 (2022-02-25)
 
