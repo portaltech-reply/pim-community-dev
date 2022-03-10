@@ -41,7 +41,7 @@ final class GetProductModelScoresQueryIntegration extends DataQualityInsightsTes
             ]),
         ];
 
-        $productModelScoreCollections = $this->get(GetProductModelScoresQuery::class)->byProductModelCodes([
+        $productModelScoreCollections = $this->get('akeneo.pim.automation.data_quality_insights.public_api.get_product_model_score_query')->byProductModelCodes([
             $productModelA->getCode(),
             $productModelB->getCode(),
             $productModelD->getCode(),
