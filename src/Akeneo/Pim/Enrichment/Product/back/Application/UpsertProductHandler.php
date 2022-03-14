@@ -48,7 +48,8 @@ final class UpsertProductHandler
         private SaverInterface $productSaver,
         private ObjectUpdaterInterface $productUpdater,
         private ValidatorInterface $productValidator,
-        private EventDispatcherInterface $eventDispatcher
+        private EventDispatcherInterface $eventDispatcher,
+        private SetCategoriesApplier $setCategoriesApplier
     ) {
     }
 
@@ -239,9 +240,7 @@ final class UpsertProductHandler
         }
 
         if ($command->categoryUserIntent() instanceof SetCategories) {
-            $this->productUpdater->update($product, [
-                'categories' => $command->categoryUserIntent()->categoryCodes(),
-            ]);
+            $this->setCategoriesApplier->apply($product, $command->categoryUserIntent(), $command->userId());
         }
     }
 }
