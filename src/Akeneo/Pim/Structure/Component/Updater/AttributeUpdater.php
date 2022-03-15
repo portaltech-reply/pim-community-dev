@@ -45,7 +45,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
     /** @var array */
     private $properties;
 
-    /** @var array */
+    /** @var array<string> */
     protected $ignoredFields = [];
 
     /**
