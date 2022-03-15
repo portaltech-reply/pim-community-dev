@@ -54,7 +54,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
      * @param AttributeTypeRegistry             $registry
      * @param TranslatableUpdater               $translatableUpdater
      * @param array                             $properties
-     * @param array                             $ignoredFields
+     * @param array<string>                            $ignoredFields
      */
     public function __construct(
         AttributeGroupRepositoryInterface $attrGroupRepo,
