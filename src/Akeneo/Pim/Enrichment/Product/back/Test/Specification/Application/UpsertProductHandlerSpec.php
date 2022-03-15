@@ -13,7 +13,7 @@ use Akeneo\Pim\Enrichment\Product\API\Command\Exception\ViolationsException;
 use Akeneo\Pim\Enrichment\Product\API\Command\UpsertProductCommand;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetTextValue;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\ValueUserIntent;
-use Akeneo\Pim\Enrichment\Product\Application\SetCategoriesApplier;
+use Akeneo\Pim\Enrichment\Product\Application\Applier\SetCategoriesApplier;
 use Akeneo\Pim\Enrichment\Product\Application\UpsertProductHandler;
 use Akeneo\Pim\Enrichment\Product\Domain\Event\ProductWasCreated;
 use Akeneo\Pim\Enrichment\Product\Domain\Event\ProductWasUpdated;

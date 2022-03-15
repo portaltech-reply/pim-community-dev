@@ -23,6 +23,7 @@ use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetNumberValue;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetSimpleSelectValue;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetTextareaValue;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetTextValue;
+use Akeneo\Pim\Enrichment\Product\Application\Applier\SetCategoriesApplier;
 use Akeneo\Pim\Enrichment\Product\Domain\Event\ProductWasCreated;
 use Akeneo\Pim\Enrichment\Product\Domain\Event\ProductWasUpdated;
 use Akeneo\Tool\Component\StorageUtils\Exception\PropertyException;
